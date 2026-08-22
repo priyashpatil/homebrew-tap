@@ -11,4 +11,10 @@ cask "stats" do
   depends_on macos: :big_sur
 
   app "Stats.app"
+
+  caveats <<~EOS
+    Stats is ad-hoc signed but not Apple-notarized. If macOS blocks the first launch,
+    remove the quarantine attribute after reviewing the downloaded cask:
+      xattr -dr com.apple.quarantine /Applications/Stats.app
+  EOS
 end
