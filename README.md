@@ -22,3 +22,5 @@ Upgrade it after a new release:
 ```sh
 brew upgrade --cask priyashpatil/tap/stats
 ```
+
+The cask checks for new Stats releases daily and updates automatically.
