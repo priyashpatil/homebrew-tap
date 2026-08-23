@@ -1,6 +1,6 @@
 cask "stats" do
-  version "2026.8.2"
-  sha256 "c7c02842ef41e7fa3214be60525381633194ebbb50ec6d5818be97f4f9e9f465"
+  version "2026.8.3"
+  sha256 "7819b2af1c3ef7be4929d8ed7f566ac2f741fc13ce4290c459e024dd5db7d679"
 
   url "https://github.com/priyashpatil/stats/releases/download/v#{version}/Stats-#{version}-macOS-arm64.zip"
   name "Stats"
