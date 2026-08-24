@@ -12,7 +12,7 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Update packages from latest release
         env:
@@ -34,7 +34,6 @@ jobs:
           sed -i -E "s/version \"[^\"]+\"/version \"${version}\"/" Casks/stats.rb
           sed -i -E "s/sha256 \"[0-9a-f]+\"/sha256 \"${cask_sha256}\"/" Casks/stats.rb
           sed -i -E "s|/v[0-9.]+/stats-[0-9.]+-macOS|/v${version}/stats-${version}-macOS|" Formula/stats.rb
-          sed -i -E "s/version \"[^\"]+\"/version \"${version}\"/" Formula/stats.rb
           sed -i -E "s/sha256 \"[0-9a-f]+\"/sha256 \"${formula_sha256}\"/" Formula/stats.rb
 
           if git diff --quiet; then
