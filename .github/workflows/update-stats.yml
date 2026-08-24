@@ -1,4 +1,4 @@
-name: Update Stats cask
+name: Update Stats packages
 
 on:
   workflow_dispatch:
@@ -14,29 +14,36 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Update cask from latest release
+      - name: Update packages from latest release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           release="$(gh api repos/priyashpatil/stats/releases/latest)"
           version="$(jq -r '.tag_name | sub("^v"; "")' <<<"$release")"
-          digest="$(jq -r --arg name "Stats-${version}-macOS-arm64.zip" \
+          cask_digest="$(jq -r --arg name "Stats-${version}-macOS-arm64.zip" \
             '.assets[] | select(.name == $name) | .digest' <<<"$release")"
-          sha256="${digest#sha256:}"
+          formula_digest="$(jq -r --arg name "stats-${version}-macOS-arm64.tar.gz" \
+            '.assets[] | select(.name == $name) | .digest' <<<"$release")"
+          cask_sha256="${cask_digest#sha256:}"
+          formula_sha256="${formula_digest#sha256:}"
 
           test -n "$version"
-          test "$sha256" != "$digest"
+          test "$cask_sha256" != "$cask_digest"
+          test "$formula_sha256" != "$formula_digest"
 
           sed -i -E "s/version \"[^\"]+\"/version \"${version}\"/" Casks/stats.rb
-          sed -i -E "s/sha256 \"[0-9a-f]+\"/sha256 \"${sha256}\"/" Casks/stats.rb
+          sed -i -E "s/sha256 \"[0-9a-f]+\"/sha256 \"${cask_sha256}\"/" Casks/stats.rb
+          sed -i -E "s|/v[0-9.]+/stats-[0-9.]+-macOS|/v${version}/stats-${version}-macOS|" Formula/stats.rb
+          sed -i -E "s/version \"[^\"]+\"/version \"${version}\"/" Formula/stats.rb
+          sed -i -E "s/sha256 \"[0-9a-f]+\"/sha256 \"${formula_sha256}\"/" Formula/stats.rb
 
           if git diff --quiet; then
-            echo "Cask is already current."
+            echo "Stats packages are already current."
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add Casks/stats.rb
+          git add Casks/stats.rb Formula/stats.rb
           git commit -m "Update Stats to ${version}"
           git push
