@@ -1,8 +1,8 @@
 class Stats < Formula
   desc "Terminal dashboard for system metrics, Amp usage, and Codex usage"
   homepage "https://github.com/priyashpatil/stats"
-  url "https://github.com/priyashpatil/stats/releases/download/v2026.8.3/stats-2026.8.3-macOS-arm64.tar.gz"
-  sha256 "598787a973f56ce72c1acfb9911094186ac8c2b7f9b1e1312eae5bd564f466a9"
+  url "https://github.com/priyashpatil/stats/releases/download/v2026.8.4/stats-2026.8.4-macOS-arm64.tar.gz"
+  sha256 "7e96af75bf494a7b302b3d8afa35230f2f46b6a38a926a3f0fa5283e6a705472"
   license "MIT"
 
   depends_on arch: :arm64
